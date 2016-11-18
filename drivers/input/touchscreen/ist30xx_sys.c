@@ -233,10 +233,20 @@ int ist30xx_power_off(void)
 {
         #ifdef CONFIG_TOUCHSCREEN_PREVENT_SLEEP
            if (dt2w_switch == 1) {
-                ; // do nothing
-           } else if (dt2w_switch == 0) { // power off screen
+                if (ts_data->status.power != 0) {
+                        ts_power_enable(0);
+                        ts_data->status.power = 0;
+                        tsp_info("%s\n", __func__);
+                }
+                mdelay(150);
+                if (ts_data->status.power != 1) {
+                        ts_power_enable(1);
+                msleep(30);
+                        ts_data->status.power = 1;
+                        tsp_info("%s\n", __func__);
+                }
+           } else if (dt2w_switch == 0) {
         #endif
-
 	if (ts_data->status.power != 0) {
 		/* VDDIO disable */
 		/* VDD disable */
@@ -245,11 +255,12 @@ int ist30xx_power_off(void)
 		tsp_info("%s\n", __func__);
 	}
         #ifdef CONFIG_TOUCHSCREEN_PREVENT_SLEEP
-           } //prevent_sleep
+           }
         #endif
            else {
            pr_info("No valid input found");
            }
+
 	return 0;
 }
 

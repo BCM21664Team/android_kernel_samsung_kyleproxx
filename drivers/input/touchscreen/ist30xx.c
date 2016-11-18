@@ -978,7 +978,6 @@ void ist30xx_disable_irq(struct ist30xx_data *data)
                 enable_irq_wake(data->client->irq);
              } else if (dt2w_switch == 0) {
            #endif
-
 	if (data->irq_enabled) {
 		ist30xx_tracking(TRACK_INTR_ENABLE);
 		disable_irq(data->client->irq);
@@ -999,7 +998,6 @@ void ist30xx_enable_irq(struct ist30xx_data *data)
                 disable_irq_wake(data->client->irq);
               } else if (dt2w_switch == 0) {
            #endif
-
 	if (!data->irq_enabled) {
 		ist30xx_tracking(TRACK_INTR_DISABLE);
 		enable_irq(data->client->irq);
