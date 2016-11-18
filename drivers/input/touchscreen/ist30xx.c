@@ -974,18 +974,9 @@ void tsp_printk(int level, const char *fmt, ...)
 void ist30xx_disable_irq(struct ist30xx_data *data)
 {
            #ifdef CONFIG_TOUCHSCREEN_PREVENT_SLEEP
-           #if defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE)
-                 bool prevent_sleep = false;
-           #endif
-           #if defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE)
-                 prevent_sleep = prevent_sleep || (dt2w_switch > 0);
-           #endif
-           #endif
-
-           #ifdef CONFIG_TOUCHSCREEN_PREVENT_SLEEP
-             if (prevent_sleep) {
+             if (dt2w_switch == 1) {
                 enable_irq_wake(data->client->irq);
-             } else {
+             } else if (dt2w_switch == 0) {
            #endif
 
 	if (data->irq_enabled) {
@@ -996,23 +987,16 @@ void ist30xx_disable_irq(struct ist30xx_data *data)
            #ifdef CONFIG_TOUCHSCREEN_PREVENT_SLEEP
              } //prevent_sleep
            #endif
+             else {
+             pr_info(No valid input found);
 }
 
 void ist30xx_enable_irq(struct ist30xx_data *data)
 {
            #ifdef CONFIG_TOUCHSCREEN_PREVENT_SLEEP
-           #if defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE)
-                bool prevent_sleep = false;
-           #endif
-           #if defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE)
-              prevent_sleep = prevent_sleep || (dt2w_switch > 0);
-           #endif
-           #endif
-
-           #ifdef CONFIG_TOUCHSCREEN_PREVENT_SLEEP
-              if (prevent_sleep) {
+              if (dt2w_switch == 1) {
                 disable_irq_wake(data->client->irq);
-              } else {
+              } else if (dt2w_switch == 0) {
            #endif
 
 	if (!data->irq_enabled) {
@@ -1024,6 +1008,9 @@ void ist30xx_enable_irq(struct ist30xx_data *data)
            #ifdef CONFIG_TOUCHSCREEN_PREVENT_SLEEP
               } //prevent_sleep
            #endif
+             else {
+             pr_info(No valid input found);
+             }
 }
 
 
