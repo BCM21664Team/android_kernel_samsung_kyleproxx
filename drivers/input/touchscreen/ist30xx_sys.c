@@ -26,6 +26,9 @@
 #include <linux/input/doubletap2wake.h>
 #endif
 #endif
+#if !defined(CONFIG_TOUCHSCREEN_PREVENT_SLEEP) && !defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE)
+int dt2w_switch = 0;
+#endif
 
 /******************************************************************************
  * Return value of Error
