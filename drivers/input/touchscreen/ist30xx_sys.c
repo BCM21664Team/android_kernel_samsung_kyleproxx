@@ -241,7 +241,7 @@ int ist30xx_power_off(void)
                         ts_data->status.power = 0;
                         tsp_info("%s\n", __func__);
                 }
-                mdelay(150);
+                mdelay(120);
                 if (ts_data->status.power != 1) {
                         ts_power_enable(1);
                 msleep(30);
